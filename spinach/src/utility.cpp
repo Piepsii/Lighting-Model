@@ -1,6 +1,6 @@
-// utility.cpp
+// Utility.cpp
 
-#include "spinach.hpp"
+#include "Utility.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -10,81 +10,76 @@
 #include <chrono>
 
 template <typename F>
-struct defer {
-   F m_f;
-   defer(F &&f) : m_f(f) {}
-   ~defer() { m_f(); }
+struct Defer {
+	F f;
+	Defer(F&& _f) : f(_f) {}
+	~Defer() { f(); }
 };
 
-namespace utility
-{
-   bool create_shader_program_from_files(shader_program &program,
-                                         const char *vertex_filename,
-                                         const char *fragment_filename)
-   {
-      std::size_t size = 0;
-      FILE *fin = nullptr;
+namespace Utility {
+	bool CreateShaderProgramFromFiles(ShaderProgram& program,
+		const char* vertex_filename,
+		const char* fragment_filename) {
+		std::size_t size = 0;
+		FILE* file_in = nullptr;
 
-      fopen_s(&fin, vertex_filename, "r");
-      if (fin == nullptr) {
-         return false;
-      }
+		fopen_s(&file_in, vertex_filename, "r");
+		if (file_in == nullptr) {
+			return false;
+		}
 
-      fseek(fin, 0, SEEK_END);
-      size = ftell(fin);
-      fseek(fin, 0, SEEK_SET);
-      std::string vertex_source;
-      vertex_source.resize(size + 1);
-      fread(vertex_source.data(), 1, size, fin);
-      fclose(fin);
-      fin = nullptr;
+		fseek(file_in, 0, SEEK_END);
+		size = ftell(file_in);
+		fseek(file_in, 0, SEEK_SET);
+		std::string vertex_source;
+		vertex_source.resize(size + 1);
+		fread(vertex_source.data(), 1, size, file_in);
+		fclose(file_in);
+		file_in = nullptr;
 
-      fopen_s(&fin, fragment_filename, "r");
-      if (fin == nullptr) {
-         return false;
-      }
+		fopen_s(&file_in, fragment_filename, "r");
+		if (file_in == nullptr) {
+			return false;
+		}
 
-      fseek(fin, 0, SEEK_END);
-      size = ftell(fin);
-      fseek(fin, 0, SEEK_SET);
-      std::string fragment_source;
-      fragment_source.resize(size + 1);
-      fread(fragment_source.data(), 1, size, fin);
-      fclose(fin);
-      fin = nullptr;
+		fseek(file_in, 0, SEEK_END);
+		size = ftell(file_in);
+		fseek(file_in, 0, SEEK_SET);
+		std::string fragment_source;
+		fragment_source.resize(size + 1);
+		fread(fragment_source.data(), 1, size, file_in);
+		fclose(file_in);
+		file_in = nullptr;
 
-      return program.create(vertex_source.c_str(), fragment_source.c_str());
-   }
+		return program.Create(vertex_source.c_str(), fragment_source.c_str());
+	}
 
-   bool create_texture_from_file(texture &texture,
-                                 const char *filename)
-   {
-      int width = 0, height = 0, components = 0;
-      auto data = stbi_load(filename, &width, &height, &components, STBI_default);
-      assert(data);
-      assert(components == 3 || components == 4);
+	bool CreateTextureFromFile(Texture& texture,
+		const char* filename) {
+		int width = 0, height = 0, components = 0;
+		auto data = stbi_load(filename, &width, &height, &components, STBI_default);
+		assert(data);
+		assert(components == 3 || components == 4);
 
-      defer release([&]() {
-         stbi_image_free(data);
-      });
+		Defer release([&]() {
+			stbi_image_free(data);
+		});
 
-      texture_format format = components == 3 ? TEXTURE_FORMAT_RGB8 : TEXTURE_FORMAT_RGBA8;
+		TextureFormat format = components == 3 ? TEXTURE_FORMAT_RGB8 : TEXTURE_FORMAT_RGBA8;
+		return texture.Create(format, width, height, data);
+	}
 
-      return texture.create(format, width, height, data);
-   }
+	int64 GetCurrentTick() {
+		static int64 start = 0;
+		if (start == 0) {
+			auto ns = std::chrono::high_resolution_clock::now();
+			auto ms = std::chrono::time_point_cast<std::chrono::milliseconds>(ns);
+			start = ms.time_since_epoch().count();
+		}
 
-   int64 get_current_tick()
-   {
-      static int64 start = 0;
-      if (start == 0) {
-         auto ns = std::chrono::high_resolution_clock::now();
-         auto ms = std::chrono::time_point_cast<std::chrono::milliseconds>(ns);
-         start = ms.time_since_epoch().count();
-      }
-
-      auto ns = std::chrono::high_resolution_clock::now();
-      auto ms = std::chrono::time_point_cast<std::chrono::milliseconds>(ns);
-      auto now = ms.time_since_epoch().count();
-      return now - start;
-   }
-} // !utility
+		auto ns = std::chrono::high_resolution_clock::now();
+		auto ms = std::chrono::time_point_cast<std::chrono::milliseconds>(ns);
+		auto now = ms.time_since_epoch().count();
+		return now - start;
+	}
+} // !Utility

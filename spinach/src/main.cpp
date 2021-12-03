@@ -1,9 +1,11 @@
 // main.cpp
 
-#include "spinach.hpp"
+#pragma once
 
-int main(int argc, char **argv)
+#include "Spinach.h"
+
+int main(int argc, char** argv)
 {
-   application{"Spinach",1920,1080}.run();
-   return 0;
+    Application{ "Spinach",1920,1080 }.Run();
+    return 0;
 }

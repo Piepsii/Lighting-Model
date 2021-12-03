@@ -1,42 +1,106 @@
-// applicaiton.cpp
+// Application.cpp
 
-#include "spinach.hpp"
+#include "Spinach.h"
 
-#include <GLFW/glfw3.h> // keycodes, ...
+#include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-application::application(const char *title, int width, int height)
-   : m_context(title, width, height, this)
-{
+struct vertex {
+	float x, y, z;
+	float u, v;
+};
+
+const vertex cube_data[360] = {
+	// front
+   { -1.0f,  1.0f,  1.0f,   0.0f, 1.0f, },
+   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 0.0f, },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 0.0f, },
+   { -1.0f, -1.0f,  1.0f,   0.0f, 0.0f, },
+   { -1.0f,  1.0f,  1.0f,   0.0f, 1.0f, },
+
+   // right                             
+   {  1.0f,  1.0f,  1.0f,   0.0f, 1.0f, },
+   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 0.0f, },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 0.0f, },
+   {  1.0f, -1.0f,  1.0f,   0.0f, 0.0f, },
+   {  1.0f,  1.0f,  1.0f,   0.0f, 1.0f, },
+
+   // back                              
+   {  1.0f,  1.0f, -1.0f,   0.0f, 1.0f, },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, },
+   { -1.0f, -1.0f, -1.0f,   1.0f, 0.0f, },
+   { -1.0f, -1.0f, -1.0f,   1.0f, 0.0f, },
+   {  1.0f, -1.0f, -1.0f,   0.0f, 0.0f, },
+   {  1.0f,  1.0f, -1.0f,   0.0f, 1.0f, },
+
+   // left                              
+   { -1.0f,  1.0f, -1.0f,   0.0f, 1.0f, },
+   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 0.0f, },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 0.0f, },
+   { -1.0f, -1.0f, -1.0f,   0.0f, 0.0f, },
+   { -1.0f,  1.0f, -1.0f,   0.0f, 1.0f, },
+
+   // top                               
+   {  1.0f,  1.0f,  1.0f,   0.0f, 1.0f, },
+   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 0.0f, },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 0.0f, },
+   {  1.0f,  1.0f, -1.0f,   0.0f, 0.0f, },
+   {  1.0f,  1.0f,  1.0f,   0.0f, 1.0f, },
+
+   // bottom                               
+   { -1.0f, -1.0f,  1.0f,   0.0f, 1.0f, },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 0.0f, },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 0.0f, },
+   { -1.0f, -1.0f, -1.0f,   0.0f, 0.0f, },
+   { -1.0f, -1.0f,  1.0f,   0.0f, 1.0f, },
+};
+
+static const float final_data[]{
+   -1.0f,  1.0f,  0.0f, 1.0f,
+	1.0f,  1.0f,  1.0f, 1.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+   -1.0f, -1.0f,  0.0f, 0.0f,
+   -1.0f,  1.0f,  0.0f, 1.0f,
+};
+
+
+Application::Application(const char* title, int width, int height)
+	: context(title, width, height, this),
+	windowWidth(width),
+	windowHeight(height) {
 }
 
-application::~application()
-{
+Application::~Application() {
+
 }
 
-void application::run()
-{
-   m_running = m_context.valid();
-   while (m_running && m_context.poll_events()) {
-      m_backend.clear(0.1f, 0.2f, 0.3f, 1.0f);
-      // note: rendering goes here!
-      m_context.swap_buffers();
-   }
+void Application::Run() {
+	running = context.IsValid();
+
+	while (running && context.PollEvents()) {
+		// rendering goes here
+		context.SwapBuffers();
+	}
 }
 
-void application::on_key(int key, bool state)
-{
-   if (key == GLFW_KEY_ESCAPE && !state) {
-      m_running = false;
-   }
+void Application::OnKey(int key, bool state) {
+	if (key == GLFW_KEY_ESCAPE && !state) {
+		running = false;
+	}
 }
 
-void application::on_mouse(int x, int y)
-{
+void Application::OnMouse(int x, int y) {
 }
 
-void application::on_button(int button, bool state) 
-{
+void Application::OnScroll(int xoffset, int yoffset) {
+}
 
+void Application::OnButton(int button, bool state) {
 }

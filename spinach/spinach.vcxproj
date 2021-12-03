@@ -101,15 +101,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c" />
-    <ClCompile Include="src\application.cpp" />
+    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\render_backend.cpp" />
-    <ClCompile Include="src\render_context.cpp" />
-    <ClCompile Include="src\utility.cpp" />
+    <ClCompile Include="src\RenderBackend.cpp" />
+    <ClCompile Include="src\RenderContext.cpp" />
+    <ClCompile Include="src\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\render.hpp" />
-    <ClInclude Include="include\spinach.hpp" />
+    <ClInclude Include="include\Render.h" />
+    <ClInclude Include="include\Spinach.h" />
+    <ClInclude Include="include\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
