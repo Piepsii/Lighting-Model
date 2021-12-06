@@ -65,52 +65,52 @@ const vertex cube_data[36] = {
 
 const vertex floor_data[36] = {
 	// front
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f, 1.0f, },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 0.0f, 0.0f, 1.0f, },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
    { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f, 1.0f, },
 
    // right                             
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 1.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 1.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
    {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 1.0f, 0.0f, 0.0f, },
 
    // back                              
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f,-1.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 0.0f, 0.0f,-1.0f,  },
+   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
+   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
    {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f,-1.0f,  },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f,-1.0f,  },
 
    // left                              
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		-1.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		-1.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
    { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		-1.0f, 0.0f, 0.0f,  },
 
    // top                               
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f, 1.0f, 0.0f,  },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 2.0f,		 0.0f, 1.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
    {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 1.0f, 0.0f,  },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f, 1.0f, 0.0f,  },
 
    // bottom                               
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f,-1.0f, 0.0f,  },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 2.0f,		 0.0f,-1.0f, 0.0f,  },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
    { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f,-1.0f, 0.0f,  },
 };
 
 static const float final_data[]{
@@ -160,6 +160,16 @@ void Application::Run() {
 										"data/crate.png")) {
 		return;
 	}
+	Texture planks_texture;
+	if (!Utility::CreateTextureFromFile(planks_texture,
+										"data/planks.png")) {
+		return;
+	}
+	Texture marble_texture;
+	if (!Utility::CreateTextureFromFile(marble_texture,
+										"data/marble.png")) {
+		return;
+	}
 	Texture bricks_texture;
 	if (!Utility::CreateTextureFromFile(bricks_texture,
 										"data/bricks.png")) {
@@ -205,11 +215,13 @@ void Application::Run() {
 	Utility::Controller controller(camera);
 	
 	float cube_rotation = 0.0f;
-	glm::vec3 cube_position = glm::vec3(0.0f, 0.0f, -5.0f);
-	glm::vec3 floor_position = glm::vec3(0.0f, -3.0f, -10.0f);
-	glm::vec3 wall_position = glm::vec3(0.0f, 0.0f, -15.0f);
-	glm::vec3 wall_position2 = glm::vec3(5.0f, 0.0f, -10.0f);
-	glm::vec3 wall_position3 = glm::vec3(-5.0f, 0.0f, -10.0f);
+	glm::vec3 crate_position = glm::vec3(0.0f, 0.0f, -8.0f);
+	glm::vec3 marble_position = glm::vec3(-2.0f, -2.0f, -8.0f);
+	glm::vec3 planks_position = glm::vec3(2.0f, -2.0f, -8.0f);
+	glm::vec3 floor_position = glm::vec3(0.0f, -6.0f, -10.0f);
+	glm::vec3 wall_position = glm::vec3(0.0f, 0.0f, -14.0f);
+	glm::vec3 wall_position2 = glm::vec3(10.0f, 6.0f, 0.0f);
+	glm::vec3 wall_position3 = glm::vec3(10.0f,-6.0f, 0.0f);
 
 	while (running && context.PollEvents()) {
 		// rendering goes here
@@ -219,15 +231,19 @@ void Application::Run() {
 		keyboard.Update();
 
 		cube_rotation += 0.01f;
-		glm::mat4 world = glm::translate(glm::mat4(1.0f), cube_position)
+		glm::mat4 world = glm::translate(glm::mat4(1.0f), crate_position)
 			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, 1.0f, -1.0f)));
 		glm::mat4 world2 = glm::translate(glm::mat4(1.0f), floor_position);
 		glm::mat4 world3 = glm::translate(glm::mat4(1.0f), wall_position)
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-		glm::mat4 world4 = glm::translate(glm::mat4(1.0f), wall_position2)
-			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-		glm::mat4 world5= glm::translate(glm::mat4(1.0f), wall_position3)
-			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f)));
+		glm::mat4 world4 = glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
+			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
+			* glm::translate(glm::mat4(1.0f), wall_position2);
+		glm::mat4 world5= glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
+			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
+			* glm::translate(glm::mat4(1.0f), wall_position3);
+		glm::mat4 world6 = glm::translate(glm::mat4(1.0f), marble_position);
+		glm::mat4 world7 = glm::translate(glm::mat4(1.0f), planks_position);
 
 		glm::mat4 orthographic = glm::ortho(0.0f,
 											1920.0f,//float(rendertarget.width_),
@@ -255,6 +271,20 @@ void Application::Run() {
 		backend.SetBlendState(false);
 		backend.SetDepthState(true, true);
 		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
+
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world6));
+		backend.SetTexture(marble_texture);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
+
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world7));
+		backend.SetTexture(planks_texture);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
 
 		backend.SetShaderUniform(world_program,
