@@ -136,6 +136,8 @@ Application::~Application() {
 void Application::Run() {
 	running = context.IsValid();
 
+
+
 	const FramebufferFormat formats[] = {
 		FRAMEBUFFER_FORMAT_RGBA8,
 		FRAMEBUFFER_FORMAT_D32
@@ -209,6 +211,19 @@ void Application::Run() {
 	VertexLayout final_layout;
 	final_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 4, false);
 
+	//ShaderProgram shadow_program;
+	//if (!Utility::CreateShaderProgramFromFiles(shadow_program,
+	//										   "data/shadow.vs.glsl",
+	//										   "data/shadow.fs.glsl")) {
+	//	return;
+	//}
+	//VertexBuffer shadow_buffer;
+	//if (!shadow_buffer.Create(sizeof(shadow_data), shadow_data)) {
+	//	return;
+	//}
+	//VertexLayout shadow_layout;
+	//shadow_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
+
 	glm::mat4 projection = glm::perspective(3.141592f * 0.25f, 16.0f / 9.0f, 1.0f, 100.0f);
 
 	Utility::Camera camera(projection);
@@ -249,7 +264,56 @@ void Application::Run() {
 											1920.0f,//float(rendertarget.width_),
 											1080.0f,//float(rendertarget.height_),
 											0.0f);
+
+		float light_near_plane = 1.0f, light_far_plane = 7.5f;
+		glm::mat4 light_projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, light_near_plane, light_far_plane);
+		glm::mat4 light_view = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
+										   glm::vec3(0.0f, 0.0f, 0.0f),
+										   glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 light_space_matrix = light_projection * light_view;
+		//unsigned int depth_map_object;
+		//glGenFramebuffers(1, &depth_map_object);
+
+		//const unsigned int shadowmap_width = 1024, shadowmap_height = 1024;
+		//unsigned int depth_map;
+		//glGenTextures(1, &depth_map);
+		//glBindTexture(GL_TEXTURE_2D, depth_map);
+		//glTexImage2D(GL_TEXTURE_2D,
+		//			 0,
+		//			 GL_DEPTH_COMPONENT,
+		//			 shadowmap_width,
+		//			 shadowmap_height,
+		//			 0,
+		//			 GL_DEPTH_COMPONENT,
+		//			 GL_FLOAT, NULL);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		//glBindFramebuffer(GL_FRAMEBUFFER, depth_map_object);
+		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_map, 0);
+		//glDrawBuffer(GL_NONE);
+		//glReadBuffer(GL_NONE);
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		//glViewport(0, 0, shadowmap_width, shadowmap_height);
+		//glBindFramebuffer(GL_FRAMEBUFFER, depth_map_object);
+		//glClear(GL_DEPTH_BUFFER_BIT);
+
 		backend.SetFramebuffer(rendertarget);
+
+		//backend.Clear(0.1f, 0.2f, 0.3f, 1.0f);
+		//backend.SetShaderProgram(shadow_program);
+		//backend.SetShaderUniform(shadow_program,
+		//						 UNIFORM_TYPE_MATRIX,
+		//						 "u_light_space_matrix",
+		//						 1, glm::value_ptr(light_space_matrix));
+		//backend.SetShaderUniform(shadow_program,
+		//						 UNIFORM_TYPE_MATRIX,
+		//						 "u_model",
+		//						 1, glm::value_ptr(world));
+
 		backend.Clear(0.1f, 0.2, 0.3f, 1.0f);
 		backend.SetShaderProgram(world_program);
 		backend.SetShaderUniform(world_program,
@@ -334,6 +398,8 @@ void Application::Run() {
 		backend.SetBlendState(false);
 		backend.SetRasterizerState(CULL_MODE_NONE, FRONT_FACE_CW);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, 6);
+
+
 		context.SwapBuffers();
 	}
 }
