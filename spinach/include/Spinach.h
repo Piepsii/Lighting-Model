@@ -2,9 +2,10 @@
 
 #pragma once
 
+#include "Utility.h"
+
 #include <vector>
-#include <Render.h>
-#include <glm/glm.hpp>
+
 
 struct GLFWwindow;
 struct RenderContext {
@@ -32,7 +33,12 @@ struct Application {
 	bool running{};
 	RenderContext context;
 	RenderBackend backend;
+	Utility::Time time;
+	Utility::Mouse mouse;
+	Utility::Keyboard keyboard;
 
 	int windowWidth, windowHeight;
 };
+
+
 

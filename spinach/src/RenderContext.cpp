@@ -2,8 +2,6 @@
 
 #include "Spinach.h"
 #include <cstdio>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	Application* app = (Application*)glfwGetWindowUserPointer(window);
