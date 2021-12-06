@@ -264,6 +264,14 @@ void Application::Run() {
 							  UNIFORM_TYPE_MATRIX,
 							  "u_world",
 							  1, glm::value_ptr(world));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC3,
+								 "u_light_direction",
+								 1, glm::value_ptr(glm::normalize(glm::vec3(0.2f, -0.8f, -0.3f))));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC4,
+								 "u_light_color",
+								 1, glm::value_ptr(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 		backend.SetVertexBuffer(cube);
 		backend.SetVertexLayout(layout);
 		backend.SetTexture(crate_texture);
