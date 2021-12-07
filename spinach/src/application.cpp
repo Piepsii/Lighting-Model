@@ -280,14 +280,12 @@ Application::~Application() {
 void Application::Run() {
 	running = context.IsValid();
 
-
-
 	const FramebufferFormat formats[] = {
 		FRAMEBUFFER_FORMAT_RGBA8,
-		FRAMEBUFFER_FORMAT_D32
+		FRAMEBUFFER_FORMAT_D32,
 	};
 	Framebuffer rendertarget;
-	if (!rendertarget.Create(1920, 1080, 2, formats)) {
+	if (!rendertarget.Create(1080, 1080, 2, formats)) {
 		return;
 	}
 	ShaderProgram world_program;
