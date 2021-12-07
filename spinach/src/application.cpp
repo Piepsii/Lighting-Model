@@ -377,14 +377,10 @@ void Application::Run() {
 		return;
 	}
 	
-	float cube_rotation = 0.0f, offset = 0.0f;
-	glm::vec3 crate_position = glm::vec3(0.0f, 0.0f, -8.0f);
-	glm::vec3 marble_position = glm::vec3(-2.0f, -2.0f, -8.0f);
-	glm::vec3 planks_position = glm::vec3(2.0f, -2.0f, -8.0f);
-	glm::vec3 floor_position = glm::vec3(0.0f, -6.0f, -10.0f);
+	float cube_rotation = 0.0f, offset = 3.0f;
+	glm::vec3 crate_position = glm::vec3(0.0f, -4.0f, -8.0f);
+	glm::vec3 floor_position = glm::vec3(0.0f, -6.0f, -8.0f);
 	glm::vec3 wall_position = glm::vec3(0.0f, 0.0f, -14.0f);
-	glm::vec3 wall_position2 = glm::vec3(10.0f, 6.0f, 0.0f);
-	glm::vec3 wall_position3 = glm::vec3(10.0f,-6.0f, 0.0f);
 
 	while (running && context.PollEvents()) {
 		// rendering goes here
@@ -394,29 +390,18 @@ void Application::Run() {
 		keyboard.Update();
 
 		cube_rotation += 0.01f;
-		offset += 0.01f;
-		float x = sin(offset) * 3.0f;
-		float y = cos(offset + 1.5f) * 3.0f;
-		float z = -sin(offset + 1.5f) * 3.0f;
-
 		glm::mat4 world_crate = glm::translate(glm::mat4(1.0f), crate_position)
-			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)))
-			* glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, 0.0f));
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(offset, 0.0f, 0.0f));
 		glm::mat4 world_marble = glm::translate(glm::mat4(1.0f), crate_position)
-			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, -1.0f, -1.0f)))
-			* glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, y));
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(-offset, 0.0f, 0.0f));
 		glm::mat4 world_planks = glm::translate(glm::mat4(1.0f), crate_position)
-			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)))
-			* glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, z, 0.0f));
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, offset));
 		glm::mat4 world_floor = glm::translate(glm::mat4(1.0f), floor_position);
 		glm::mat4 world_wall_back = glm::translate(glm::mat4(1.0f), wall_position)
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-		glm::mat4 world_wall_left = glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
-			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
-			* glm::translate(glm::mat4(1.0f), wall_position2);
-		glm::mat4 world_wall_right= glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
-			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
-			* glm::translate(glm::mat4(1.0f), wall_position3);
 
 		glm::mat4 orthographic = glm::ortho(0.0f,
 											1920.0f,//float(rendertarget.width_),
@@ -488,7 +473,7 @@ void Application::Run() {
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_light_direction",
-								 1, glm::value_ptr(glm::normalize(glm::vec3(1.0f, -1.0f, 1.0f))));
+								 1, glm::value_ptr(glm::normalize(glm::vec3(-1.0f, -1.0f, -0.1f))));
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_view_position",
@@ -569,16 +554,6 @@ void Application::Run() {
 		backend.SetVertexBuffer(floor);
 		backend.SetVertexLayout(layout);
 		backend.SetTexture(bricks_texture);
-		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
-		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_MATRIX,
-								 "u_world",
-								 1, glm::value_ptr(world_wall_left));
-		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
-		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_MATRIX,
-								 "u_world",
-								 1, glm::value_ptr(world_wall_right));
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
 
 		backend.ResetFramebuffer();
