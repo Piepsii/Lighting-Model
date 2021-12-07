@@ -82,4 +82,63 @@ namespace Utility {
 		auto now = ms.time_since_epoch().count();
 		return now - start;
 	}
+
+	bool CreateCubemapFromFiles(Cubemap& cubemap,
+								   const int count,
+								   const char** filenames)
+	{
+		assert(count == 6);
+
+		int width = 0;
+		int height = 0;
+		int components = 0;
+		TextureFormat format = TEXTURE_FORMAT_UNKNOWN;
+		const void* data[6] = {};
+
+		// note: load image data
+		for (int index = 0; index < count; index++) {
+			const char* filename = filenames[index];
+			int w = 0, h = 0, c = 0;
+			auto d = stbi_load(filename, &w, &h, &c, STBI_default);
+			assert(d);
+			assert(c == 3 || c == 4);
+
+			TextureFormat f = c == 3 ? TEXTURE_FORMAT_RGB8 : TEXTURE_FORMAT_RGBA8;
+			if (width == 0) {
+				width = w;
+			}
+			if (width != w) {
+				assert(false);
+			}
+
+			if (height == 0) {
+				height = h;
+			}
+			if (height != h) {
+				assert(false);
+			}
+
+			if (format == TEXTURE_FORMAT_UNKNOWN) {
+				format = f;
+			}
+			if (format != f) {
+				assert(false);
+			}
+
+			data[index] = d;
+		}
+
+		// note: create cubemap
+		bool success = cubemap.Create(format, width, height, data);
+
+		// note: release image data
+		for (int index = 0; index < 6; index++) {
+			if (data[index]) {
+				stbi_image_free((void*)data[index]);
+			}
+		}
+
+		return success;
+	}
+
 } // !Utility

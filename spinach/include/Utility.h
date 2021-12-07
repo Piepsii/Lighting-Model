@@ -15,6 +15,9 @@ namespace Utility {
 		const char* fragment_filename);
 	bool CreateTextureFromFile(Texture& texture,
 		const char* filename);
+	bool CreateCubemapFromFiles(Cubemap& cubemap,
+								const int count,
+								const char** filenames);
 
 	struct Time {
 		static Time Now()

@@ -13,6 +13,150 @@ struct vertex {
 	float nx, ny, nz;
 };
 
+struct Skybox {
+	Skybox() = default;
+
+	bool IsValid() const
+	{
+		return program.IsValid() &&
+			cubemap.IsValid() &&
+			sampler.IsValid() &&
+			buffer.IsValid();
+	}
+
+	bool Create()
+	{
+		// note: create shader program
+		if (!Utility::CreateShaderProgramFromFiles(program,
+												   "data/skybox/shader.vs.glsl",
+												   "data/skybox/shader.fs.glsl"))
+		{
+			return false;
+		}
+
+		// note: load images and create cubemap
+		const char* filenames[] =
+		{
+		   "data/skybox/xpos.jpg",
+		   "data/skybox/xneg.jpg",
+		   "data/skybox/ypos.jpg",
+		   "data/skybox/yneg.jpg",
+		   "data/skybox/zpos.jpg",
+		   "data/skybox/zneg.jpg",
+		};
+
+		if (!Utility::CreateCubemapFromFiles(cubemap, 6, filenames)) {
+			return false;
+		}
+
+		// note: create sampler state
+		if (!sampler.Create(SAMPLER_FILTER_MODE_LINEAR,
+							SAMPLER_ADDRESS_MODE_CLAMP,
+							SAMPLER_ADDRESS_MODE_CLAMP))
+		{
+			return false;
+		}
+
+
+		{ // note: create vertex buffer and set vertex layout attributes
+			const float Q = 2.0f;
+			const glm::vec3 vertices[] =
+			{
+				// x positive
+				{  Q,  Q, -Q },
+				{  Q,  Q,  Q },
+				{  Q, -Q,  Q },
+				{  Q, -Q,  Q },
+				{  Q, -Q, -Q },
+				{  Q,  Q, -Q },
+
+				// x negative
+				{ -Q,  Q,  Q },
+				{ -Q,  Q, -Q },
+				{ -Q, -Q, -Q },
+				{ -Q, -Q, -Q },
+				{ -Q, -Q,  Q },
+				{ -Q,  Q,  Q },
+
+				// y positive
+				{ -Q,  Q,  Q },
+				{  Q,  Q,  Q },
+				{  Q,  Q, -Q },
+				{  Q,  Q, -Q },
+				{ -Q,  Q, -Q },
+				{ -Q,  Q,  Q },
+
+				// y negative
+				{ -Q, -Q, -Q },
+				{  Q, -Q, -Q },
+				{  Q, -Q,  Q },
+				{  Q, -Q,  Q },
+				{ -Q, -Q,  Q },
+				{ -Q, -Q, -Q },
+
+				// z positive
+				{ -Q,  Q, -Q },
+				{  Q,  Q, -Q },
+				{  Q, -Q, -Q },
+				{  Q, -Q, -Q },
+				{ -Q, -Q, -Q },
+				{ -Q,  Q, -Q },
+
+				// z negative
+				{  Q,  Q,  Q },
+				{ -Q,  Q,  Q },
+				{ -Q, -Q,  Q },
+				{ -Q, -Q,  Q },
+				{  Q, -Q,  Q },
+				{  Q,  Q,  Q },
+			};
+
+			primitive_count = sizeof(vertices) / sizeof(vertices[0]);
+			if (!buffer.Create(sizeof(vertices), vertices)) {
+				return false;
+			}
+
+			layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
+		}
+
+		return true;
+	}
+
+	void Destroy()
+	{
+		program.Destroy();
+		cubemap.Destroy();
+		sampler.Destroy();
+		buffer.Destroy();
+	}
+
+	void Draw(RenderBackend& backend, const Utility::Camera& camera)
+	{
+		glm::mat4 proj = camera.m_projection;
+		glm::mat4 view = camera.m_view;
+		view[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+		backend.SetShaderProgram(program);
+		backend.SetShaderUniform(program, UNIFORM_TYPE_MATRIX, "u_projection", 1, glm::value_ptr(proj));
+		backend.SetShaderUniform(program, UNIFORM_TYPE_MATRIX, "u_view", 1, glm::value_ptr(view));
+		backend.SetVertexBuffer(buffer);
+		backend.SetVertexLayout(layout);
+		backend.SetCubemap(cubemap);
+		backend.SetSamplerState(sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(false, false);
+		backend.SetRasterizerState(CULL_MODE_FRONT, FRONT_FACE_CCW, POLYGON_MODE_FILL);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, primitive_count);
+	}
+
+	ShaderProgram program;
+	Cubemap cubemap;
+	SamplerState sampler;
+	VertexBuffer buffer;
+	VertexLayout layout;
+	int32 primitive_count{};
+};
+
 const vertex cube_data[36] = {
 	// front
    { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
@@ -228,8 +372,12 @@ void Application::Run() {
 
 	Utility::Camera camera(projection);
 	Utility::Controller controller(camera);
+	Skybox skybox;
+	if (!skybox.Create()) {
+		return;
+	}
 	
-	float cube_rotation = 0.0f;
+	float cube_rotation = 0.0f, offset = 0.0f;
 	glm::vec3 crate_position = glm::vec3(0.0f, 0.0f, -8.0f);
 	glm::vec3 marble_position = glm::vec3(-2.0f, -2.0f, -8.0f);
 	glm::vec3 planks_position = glm::vec3(2.0f, -2.0f, -8.0f);
@@ -246,19 +394,29 @@ void Application::Run() {
 		keyboard.Update();
 
 		cube_rotation += 0.01f;
-		glm::mat4 world = glm::translate(glm::mat4(1.0f), crate_position)
-			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, 1.0f, -1.0f)));
-		glm::mat4 world2 = glm::translate(glm::mat4(1.0f), floor_position);
-		glm::mat4 world3 = glm::translate(glm::mat4(1.0f), wall_position)
+		offset += 0.01f;
+		float x = sin(offset) * 3.0f;
+		float y = cos(offset + 1.5f) * 3.0f;
+		float z = -sin(offset + 1.5f) * 3.0f;
+
+		glm::mat4 world_crate = glm::translate(glm::mat4(1.0f), crate_position)
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, 0.0f));
+		glm::mat4 world_marble = glm::translate(glm::mat4(1.0f), crate_position)
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, -1.0f, -1.0f)))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, y));
+		glm::mat4 world_planks = glm::translate(glm::mat4(1.0f), crate_position)
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)))
+			* glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, z, 0.0f));
+		glm::mat4 world_floor = glm::translate(glm::mat4(1.0f), floor_position);
+		glm::mat4 world_wall_back = glm::translate(glm::mat4(1.0f), wall_position)
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-		glm::mat4 world4 = glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
+		glm::mat4 world_wall_left = glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
 			* glm::translate(glm::mat4(1.0f), wall_position2);
-		glm::mat4 world5= glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
+		glm::mat4 world_wall_right= glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
 			* glm::translate(glm::mat4(1.0f), wall_position3);
-		glm::mat4 world6 = glm::translate(glm::mat4(1.0f), marble_position);
-		glm::mat4 world7 = glm::translate(glm::mat4(1.0f), planks_position);
 
 		glm::mat4 orthographic = glm::ortho(0.0f,
 											1920.0f,//float(rendertarget.width_),
@@ -315,6 +473,9 @@ void Application::Run() {
 		//						 1, glm::value_ptr(world));
 
 		backend.Clear(0.1f, 0.2, 0.3f, 1.0f);
+
+		skybox.Draw(backend, camera);
+
 		backend.SetShaderProgram(world_program);
 		backend.SetShaderUniform(world_program,
 							  UNIFORM_TYPE_MATRIX,
@@ -325,17 +486,38 @@ void Application::Run() {
 								 "u_view",
 								 1, glm::value_ptr(camera.m_view));
 		backend.SetShaderUniform(world_program,
-							  UNIFORM_TYPE_MATRIX,
-							  "u_world",
-							  1, glm::value_ptr(world));
-		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_light_direction",
-								 1, glm::value_ptr(glm::normalize(glm::vec3(0.2f, -0.8f, -0.3f))));
+								 1, glm::value_ptr(glm::normalize(glm::vec3(1.0f, -1.0f, 1.0f))));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC3,
+								 "u_view_position",
+								 1, glm::value_ptr(camera.m_position));
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC4,
 								 "u_light_color",
 								 1, glm::value_ptr(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC4,
+								 "u_light_ambient",
+								 1, glm::value_ptr(glm::vec4(0.5f)));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC4,
+								 "u_light_specular",
+								 1, glm::value_ptr(glm::vec4(1.0f)));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC4,
+								 "u_material_ambient",
+								 1, glm::value_ptr(glm::vec4(1.0f)));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_VEC4,
+								 "u_material_specular",
+								 1, glm::value_ptr(glm::vec4(1.0f)));
+
+		backend.SetShaderUniform(world_program,
+							  UNIFORM_TYPE_MATRIX,
+							  "u_world",
+							  1, glm::value_ptr(world_crate));
 		backend.SetVertexBuffer(cube);
 		backend.SetVertexLayout(layout);
 		backend.SetTexture(crate_texture);
@@ -348,21 +530,33 @@ void Application::Run() {
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world6));
+								 1, glm::value_ptr(world_marble));
+		backend.SetVertexBuffer(cube);
+		backend.SetVertexLayout(layout);
 		backend.SetTexture(marble_texture);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
 
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world7));
+								 1, glm::value_ptr(world_planks));
+		backend.SetVertexBuffer(cube);
+		backend.SetVertexLayout(layout);
 		backend.SetTexture(planks_texture);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
 
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world2));
+								 1, glm::value_ptr(world_floor));
 		backend.SetVertexBuffer(floor);
 		backend.SetVertexLayout(layout);
 		backend.SetTexture(grass_texture);
@@ -371,7 +565,7 @@ void Application::Run() {
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world3));
+								 1, glm::value_ptr(world_wall_back));
 		backend.SetVertexBuffer(floor);
 		backend.SetVertexLayout(layout);
 		backend.SetTexture(bricks_texture);
@@ -379,12 +573,12 @@ void Application::Run() {
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world4));
+								 1, glm::value_ptr(world_wall_left));
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world5));
+								 1, glm::value_ptr(world_wall_right));
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
 
 		backend.ResetFramebuffer();

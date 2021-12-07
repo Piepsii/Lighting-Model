@@ -12,10 +12,12 @@ uniform mat4 u_world;
 out vec4 v_diffuse;
 out vec2 v_texcoord;
 out vec3 v_normal;
+out vec3 v_fragment_position;
 
 void main() {
 	gl_Position = u_projection * u_view * u_world * vec4(a_position, 1.0);
 	v_diffuse = a_diffuse;
 	v_texcoord = a_texcoord;
 	v_normal = (u_world * vec4(a_normal, 0)).xyz;
+	v_fragment_position = vec3(u_world * vec4(a_position, 1.0));
 }
