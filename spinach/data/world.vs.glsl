@@ -8,11 +8,15 @@ layout (location = 3) in vec3 a_normal;
 uniform mat4 u_projection;
 uniform mat4 u_view;
 uniform mat4 u_world;
+uniform mat4 u_light_projection;
+uniform mat4 u_light_view;
+uniform mat4 u_light_bias;
 
 out vec4 v_diffuse;
 out vec2 v_texcoord;
 out vec3 v_normal;
 out vec3 v_fragment_position;
+out vec4 v_position_light_space;
 
 void main() {
 	gl_Position = u_projection * u_view * u_world * vec4(a_position, 1.0);
@@ -20,4 +24,5 @@ void main() {
 	v_texcoord = a_texcoord;
 	v_normal = (u_world * vec4(a_normal, 0)).xyz;
 	v_fragment_position = vec3(u_world * vec4(a_position, 1.0));
+	v_position_light_space = u_light_projection * u_light_view * u_world * vec4(a_position, 1.0);
 }

@@ -266,6 +266,15 @@ static const float final_data[]{
    -1.0f,  1.0f,  0.0f, 1.0f,
 };
 
+static const float shadow_data[]{
+   -1.0f,  1.0f,  0.0f, 1.0f,
+	1.0f,  1.0f,  1.0f, 1.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+   -1.0f, -1.0f,  0.0f, 0.0f,
+   -1.0f,  1.0f,  0.0f, 1.0f,
+};
+
 
 Application::Application(const char* title, int width, int height)
 	: context(title, width, height, this),
@@ -285,9 +294,10 @@ void Application::Run() {
 		FRAMEBUFFER_FORMAT_D32,
 	};
 	Framebuffer rendertarget;
-	if (!rendertarget.Create(1080, 1080, 2, formats)) {
+	if (!rendertarget.Create(1920, 1080, 2, formats)) {
 		return;
 	}
+
 	ShaderProgram world_program;
 	if (!Utility::CreateShaderProgramFromFiles(world_program,
 											   "data/world.vs.glsl",
@@ -353,18 +363,18 @@ void Application::Run() {
 	VertexLayout final_layout;
 	final_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 4, false);
 
-	//ShaderProgram shadow_program;
-	//if (!Utility::CreateShaderProgramFromFiles(shadow_program,
-	//										   "data/shadow.vs.glsl",
-	//										   "data/shadow.fs.glsl")) {
-	//	return;
-	//}
-	//VertexBuffer shadow_buffer;
-	//if (!shadow_buffer.Create(sizeof(shadow_data), shadow_data)) {
-	//	return;
-	//}
-	//VertexLayout shadow_layout;
-	//shadow_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
+	ShaderProgram shadow_program;
+	if (!Utility::CreateShaderProgramFromFiles(shadow_program,
+											   "data/shadow.vs.glsl",
+											   "data/shadow.fs.glsl")) {
+		return;
+	}
+	VertexBuffer shadow_buffer;
+	if (!shadow_buffer.Create(sizeof(shadow_data), shadow_data)) {
+		return;
+	}
+	VertexLayout shadow_layout;
+	shadow_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
 
 	glm::mat4 projection = glm::perspective(3.141592f * 0.25f, 16.0f / 9.0f, 1.0f, 100.0f);
 
@@ -376,9 +386,9 @@ void Application::Run() {
 	}
 	
 	float cube_rotation = 0.0f, offset = 3.0f;
-	glm::vec3 crate_position = glm::vec3(0.0f, -4.0f, -8.0f);
-	glm::vec3 floor_position = glm::vec3(0.0f, -6.0f, -8.0f);
-	glm::vec3 wall_position = glm::vec3(0.0f, 0.0f, -14.0f);
+	glm::vec3 crate_position = glm::vec3(0.0f, 0.0f, -8.0f);
+	glm::vec3 floor_position = glm::vec3(0.0f, -4.0f, -8.0f);
+	glm::vec3 wall_position = glm::vec3(0.0f, 2.0f, -14.0f);
 
 	while (running && context.PollEvents()) {
 		// rendering goes here
@@ -398,66 +408,115 @@ void Application::Run() {
 			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)))
 			* glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, offset));
 		glm::mat4 world_floor = glm::translate(glm::mat4(1.0f), floor_position);
-		glm::mat4 world_wall_back = glm::translate(glm::mat4(1.0f), wall_position)
+		glm::mat4 world_wall = glm::translate(glm::mat4(1.0f), wall_position)
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
 
 		glm::mat4 orthographic = glm::ortho(0.0f,
 											1920.0f,//float(rendertarget.width_),
 											1080.0f,//float(rendertarget.height_),
 											0.0f);
+		glm::vec3 light_direction = glm::normalize(glm::vec3(-0.4f, -1.0f, 1.0f));
 
-		float light_near_plane = 1.0f, light_far_plane = 7.5f;
-		glm::mat4 light_projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, light_near_plane, light_far_plane);
-		glm::mat4 light_view = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
-										   glm::vec3(0.0f, 0.0f, 0.0f),
-										   glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4 light_space_matrix = light_projection * light_view;
-		//unsigned int depth_map_object;
-		//glGenFramebuffers(1, &depth_map_object);
-
-		//const unsigned int shadowmap_width = 1024, shadowmap_height = 1024;
-		//unsigned int depth_map;
-		//glGenTextures(1, &depth_map);
-		//glBindTexture(GL_TEXTURE_2D, depth_map);
-		//glTexImage2D(GL_TEXTURE_2D,
-		//			 0,
-		//			 GL_DEPTH_COMPONENT,
-		//			 shadowmap_width,
-		//			 shadowmap_height,
-		//			 0,
-		//			 GL_DEPTH_COMPONENT,
-		//			 GL_FLOAT, NULL);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		//glBindFramebuffer(GL_FRAMEBUFFER, depth_map_object);
-		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_map, 0);
-		//glDrawBuffer(GL_NONE);
-		//glReadBuffer(GL_NONE);
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		//glViewport(0, 0, shadowmap_width, shadowmap_height);
-		//glBindFramebuffer(GL_FRAMEBUFFER, depth_map_object);
-		//glClear(GL_DEPTH_BUFFER_BIT);
-
+		glm::mat4 light_projection_matrix = glm::ortho<float>(-20, 20, -20, 20, -10, 20);
+		glm::mat4 light_view_matrix = glm::lookAt(-light_direction,
+												  glm::vec3(0.0f, 0.0f, 0.0f),
+												  glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 light_bias_matrix(
+			0.5f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.5f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.5f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f
+		);
+		//skybox.Draw(backend, camera);
+		
+		// Pass 1: Shadow Render Pass		
+		backend.SetViewport(0, 0, 1024, 1024);
 		backend.SetFramebuffer(rendertarget);
+		backend.SetShaderProgram(shadow_program);
+		backend.Clear(0.3f, 0.3f, 0.3f);
 
-		//backend.Clear(0.1f, 0.2f, 0.3f, 1.0f);
-		//backend.SetShaderProgram(shadow_program);
-		//backend.SetShaderUniform(shadow_program,
-		//						 UNIFORM_TYPE_MATRIX,
-		//						 "u_light_space_matrix",
-		//						 1, glm::value_ptr(light_space_matrix));
-		//backend.SetShaderUniform(shadow_program,
-		//						 UNIFORM_TYPE_MATRIX,
-		//						 "u_model",
-		//						 1, glm::value_ptr(world));
+		backend.SetTexture(crate_texture);
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_projection",
+								 1, glm::value_ptr(light_projection_matrix));
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_view",
+								 1, glm::value_ptr(light_view_matrix));
+		backend.SetVertexBuffer(shadow_buffer);
+		backend.SetVertexLayout(shadow_layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
 
-		backend.Clear(0.1f, 0.2, 0.3f, 1.0f);
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world_crate));
+		backend.SetVertexBuffer(cube);
+		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_FRONT, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
 
-		skybox.Draw(backend, camera);
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world_marble));
+		backend.SetVertexBuffer(cube);
+		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_FRONT, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
+
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world_planks));
+		backend.SetVertexBuffer(cube);
+		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_FRONT, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
+
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world_floor));
+		backend.SetVertexBuffer(floor);
+		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_FRONT, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
+
+		backend.SetShaderUniform(shadow_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_world",
+								 1, glm::value_ptr(world_wall));
+		backend.SetVertexBuffer(floor);
+		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetBlendState(false);
+		backend.SetDepthState(true, true);
+		backend.SetRasterizerState(CULL_MODE_FRONT, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
+
+		backend.ResetFramebuffer();
+		backend.SetViewport(0, 0, 1920, 1080);
+
+		// Pass 2: Normal Render Pass
+		backend.Clear(0.1f, 0.2, 0.3f);
+		backend.SetTexture(rendertarget.ColorAttachmentAsTexture(1), 1);
 
 		backend.SetShaderProgram(world_program);
 		backend.SetShaderUniform(world_program,
@@ -469,9 +528,21 @@ void Application::Run() {
 								 "u_view",
 								 1, glm::value_ptr(camera.m_view));
 		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_light_projection",
+								 1, glm::value_ptr(light_projection_matrix));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_light_view",
+								 1, glm::value_ptr(light_view_matrix));
+		backend.SetShaderUniform(world_program,
+								 UNIFORM_TYPE_MATRIX,
+								 "u_light_bias",
+								 1, glm::value_ptr(light_bias_matrix));
+		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_light_direction",
-								 1, glm::value_ptr(glm::normalize(glm::vec3(-1.0f, -1.0f, -0.1f))));
+								 1, glm::value_ptr(light_direction));
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_view_position",
@@ -548,24 +619,24 @@ void Application::Run() {
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_world",
-								 1, glm::value_ptr(world_wall_back));
+								 1, glm::value_ptr(world_wall));
 		backend.SetVertexBuffer(floor);
 		backend.SetVertexLayout(layout);
 		backend.SetTexture(bricks_texture);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
-
+		
 		backend.ResetFramebuffer();
-		backend.Clear(0.0f, 0.0f, 0.0f, 1.0f);
 		backend.SetViewport(0, 0, 1920, 1080);
+		backend.Clear(0.0f, 0.1f, 0.2f, 1.0f);
 		backend.SetShaderProgram(final_program);
 		backend.SetVertexBuffer(final_buffer);
 		backend.SetVertexLayout(final_layout);
-		backend.SetTexture(rendertarget.ColorAttachmentAsTexture(0));
 		backend.SetSamplerState(linear_sampler);
+		backend.SetTexture(rendertarget.ColorAttachmentAsTexture(0));
 		backend.SetBlendState(false);
+		backend.SetDepthState(false, false);
 		backend.SetRasterizerState(CULL_MODE_NONE, FRONT_FACE_CW);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, 6);
-
 
 		context.SwapBuffers();
 	}
