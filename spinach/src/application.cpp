@@ -266,15 +266,6 @@ static const float final_data[]{
    -1.0f,  1.0f,  0.0f, 1.0f,
 };
 
-static const float shadow_data[]{
-   -1.0f,  1.0f,  0.0f, 1.0f,
-	1.0f,  1.0f,  1.0f, 1.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-   -1.0f, -1.0f,  0.0f, 0.0f,
-   -1.0f,  1.0f,  0.0f, 1.0f,
-};
-
 
 Application::Application(const char* title, int width, int height)
 	: context(title, width, height, this),
@@ -289,12 +280,19 @@ Application::~Application() {
 void Application::Run() {
 	running = context.IsValid();
 
-	const FramebufferFormat formats[] = {
-		FRAMEBUFFER_FORMAT_RGBA8,
-		FRAMEBUFFER_FORMAT_D32,
+	const FramebufferFormat shadow_buffer_formats[] = {
+		FRAMEBUFFER_FORMAT_D32
 	};
-	Framebuffer rendertarget;
-	if (!rendertarget.Create(1920, 1080, 2, formats)) {
+	Framebuffer shadow_buffer;
+	if (!shadow_buffer.Create(1024, 1024, 1, shadow_buffer_formats)) {
+		return;
+	}
+	const FramebufferFormat render_buffer_formats[] = {
+		FRAMEBUFFER_FORMAT_RGBA8,
+		FRAMEBUFFER_FORMAT_D32
+	};
+	Framebuffer render_buffer;
+	if (!render_buffer.Create(1920, 1080, 2, render_buffer_formats)) {
 		return;
 	}
 
@@ -355,7 +353,7 @@ void Application::Run() {
 											   "data/final.vs.glsl",
 											   "data/final.fs.glsl")) {
 		return;
-	}
+	}	
 	VertexBuffer final_buffer;
 	if (!final_buffer.Create(sizeof(final_data), final_data)) {
 		return;
@@ -363,18 +361,25 @@ void Application::Run() {
 	VertexLayout final_layout;
 	final_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 4, false);
 
+	ShaderProgram shadow_sprite_program;
+	if (!Utility::CreateShaderProgramFromFiles(shadow_sprite_program,
+											   "data/shadow_sprite.vs.glsl",
+											   "data/shadow_sprite.fs.glsl")) {
+		return;
+	}
+	VertexBuffer shadow_sprite_buffer;
+	if (!shadow_sprite_buffer.Create(sizeof(final_data), final_data)) {
+		return;
+	}
+	VertexLayout shadow_sprite_layout;
+	shadow_sprite_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 4, false);
+
 	ShaderProgram shadow_program;
 	if (!Utility::CreateShaderProgramFromFiles(shadow_program,
 											   "data/shadow.vs.glsl",
 											   "data/shadow.fs.glsl")) {
 		return;
 	}
-	VertexBuffer shadow_buffer;
-	if (!shadow_buffer.Create(sizeof(shadow_data), shadow_data)) {
-		return;
-	}
-	VertexLayout shadow_layout;
-	shadow_layout.AddAttribute(0, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
 
 	glm::mat4 projection = glm::perspective(3.141592f * 0.25f, 16.0f / 9.0f, 1.0f, 100.0f);
 
@@ -415,27 +420,21 @@ void Application::Run() {
 											1920.0f,//float(rendertarget.width_),
 											1080.0f,//float(rendertarget.height_),
 											0.0f);
-		glm::vec3 light_direction = glm::normalize(glm::vec3(-0.4f, -1.0f, 1.0f));
+		glm::vec3 light_direction = glm::normalize(glm::vec3(-0.4f, -1.0f, 0.8f));
 
-		glm::mat4 light_projection_matrix = glm::ortho<float>(-20, 20, -20, 20, -10, 20);
+		glm::mat4 light_projection_matrix = glm::ortho<float>(-20.0f,
+															  20.0f,
+															  -20.0f,
+															  20.0f,
+															  -25.0f, 25.0f);
 		glm::mat4 light_view_matrix = glm::lookAt(-light_direction,
 												  glm::vec3(0.0f, 0.0f, 0.0f),
 												  glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4 light_bias_matrix(
-			0.5f, 0.0f, 0.0f, 0.0f,
-			0.0f, 0.5f, 0.0f, 0.0f,
-			0.0f, 0.0f, 0.5f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f
-		);
-		//skybox.Draw(backend, camera);
+		
 		
 		// Pass 1: Shadow Render Pass		
-		backend.SetViewport(0, 0, 1024, 1024);
-		backend.SetFramebuffer(rendertarget);
+		backend.Clear(0.1f, 0.1f, 0.1f);
 		backend.SetShaderProgram(shadow_program);
-		backend.Clear(0.3f, 0.3f, 0.3f);
-
-		backend.SetTexture(crate_texture);
 		backend.SetShaderUniform(shadow_program,
 								 UNIFORM_TYPE_MATRIX,
 								 "u_projection",
@@ -444,12 +443,11 @@ void Application::Run() {
 								 UNIFORM_TYPE_MATRIX,
 								 "u_view",
 								 1, glm::value_ptr(light_view_matrix));
-		backend.SetVertexBuffer(shadow_buffer);
-		backend.SetVertexLayout(shadow_layout);
-		backend.SetSamplerState(linear_sampler);
-		backend.SetBlendState(false);
-		backend.SetDepthState(true, true);
-		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
+
+		backend.SetViewport(0, 0, 1024, 1024);
+		backend.SetFramebuffer(shadow_buffer);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		backend.SetTexture(crate_texture);
 
 		backend.SetShaderUniform(shadow_program,
 								 UNIFORM_TYPE_MATRIX,
@@ -512,13 +510,16 @@ void Application::Run() {
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, cube_primitive_count);
 
 		backend.ResetFramebuffer();
-		backend.SetViewport(0, 0, 1920, 1080);
 
 		// Pass 2: Normal Render Pass
+		backend.SetViewport(0, 0, 1920, 1080);
+		backend.SetFramebuffer(render_buffer);
 		backend.Clear(0.1f, 0.2, 0.3f);
-		backend.SetTexture(rendertarget.ColorAttachmentAsTexture(1), 1);
 
 		backend.SetShaderProgram(world_program);
+		backend.SetSamplerState(linear_sampler, 1);
+		backend.SetTexture(shadow_buffer.ColorAttachmentAsTexture(0), 1);
+
 		backend.SetShaderUniform(world_program,
 							  UNIFORM_TYPE_MATRIX,
 							  "u_projection",
@@ -536,10 +537,6 @@ void Application::Run() {
 								 "u_light_view",
 								 1, glm::value_ptr(light_view_matrix));
 		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_MATRIX,
-								 "u_light_bias",
-								 1, glm::value_ptr(light_bias_matrix));
-		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_light_direction",
 								 1, glm::value_ptr(light_direction));
@@ -548,25 +545,25 @@ void Application::Run() {
 								 "u_view_position",
 								 1, glm::value_ptr(camera.m_position));
 		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_VEC4,
+								 UNIFORM_TYPE_VEC3,
 								 "u_light_color",
-								 1, glm::value_ptr(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+								 1, glm::value_ptr(glm::vec3(1.0f, 0.95f, 0.9f)));
 		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_VEC4,
+								 UNIFORM_TYPE_VEC3,
 								 "u_light_ambient",
-								 1, glm::value_ptr(glm::vec4(0.5f)));
+								 1, glm::value_ptr(glm::vec3(0.5f)));
 		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_VEC4,
+								 UNIFORM_TYPE_VEC3,
 								 "u_light_specular",
-								 1, glm::value_ptr(glm::vec4(1.0f)));
+								 1, glm::value_ptr(glm::vec3(1.0f)));
 		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_VEC4,
+								 UNIFORM_TYPE_VEC3,
 								 "u_material_ambient",
-								 1, glm::value_ptr(glm::vec4(1.0f)));
+								 1, glm::value_ptr(glm::vec3(0.5f)));
 		backend.SetShaderUniform(world_program,
-								 UNIFORM_TYPE_VEC4,
+								 UNIFORM_TYPE_VEC3,
 								 "u_material_specular",
-								 1, glm::value_ptr(glm::vec4(1.0f)));
+								 1, glm::value_ptr(glm::vec3(1.0f)));
 
 		backend.SetShaderUniform(world_program,
 							  UNIFORM_TYPE_MATRIX,
@@ -627,12 +624,26 @@ void Application::Run() {
 		
 		backend.ResetFramebuffer();
 		backend.SetViewport(0, 0, 1920, 1080);
-		backend.Clear(0.0f, 0.1f, 0.2f, 1.0f);
+		backend.Clear(0.0f, 0.0f, 0.0f, 1.0f);
+		
+		skybox.Draw(backend, camera);
+		
 		backend.SetShaderProgram(final_program);
 		backend.SetVertexBuffer(final_buffer);
 		backend.SetVertexLayout(final_layout);
 		backend.SetSamplerState(linear_sampler);
-		backend.SetTexture(rendertarget.ColorAttachmentAsTexture(0));
+		backend.SetTexture(render_buffer.ColorAttachmentAsTexture(0));
+		backend.SetBlendState(false);
+		backend.SetDepthState(false, false);
+		backend.SetRasterizerState(CULL_MODE_NONE, FRONT_FACE_CW);
+		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, 6);
+
+		backend.SetViewport(0, 760, 320, 320);
+		backend.SetShaderProgram(shadow_sprite_program);
+		backend.SetVertexLayout(shadow_sprite_layout);
+		backend.SetVertexBuffer(shadow_sprite_buffer);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetTexture(shadow_buffer.ColorAttachmentAsTexture(0));
 		backend.SetBlendState(false);
 		backend.SetDepthState(false, false);
 		backend.SetRasterizerState(CULL_MODE_NONE, FRONT_FACE_CW);
