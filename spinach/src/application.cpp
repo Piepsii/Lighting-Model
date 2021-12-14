@@ -11,6 +11,8 @@ struct vertex {
 	float r, g, b, a;
 	float u, v;
 	float nx, ny, nz;
+	float tx, ty, tz;
+	float bx, by, bz;
 };
 
 struct Skybox {
@@ -157,54 +159,54 @@ struct Skybox {
 	int32 primitive_count{};
 };
 
-const vertex cube_data[36] = {
+vertex cube_data[36] = {
 	// front
-   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
-   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
-   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f, },
+   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
 
    // right                             
-   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, },
-   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 1.0f, 0.0f, 0.0f, },
-   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, },
+   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
 
    // back                              
-   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f,-1.0f,  },
+   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
 
    // left                              
-   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,  },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
 
    // top                               
-   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 1.0f, 0.0f,  },
+   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
 
    // bottom                               
-   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,  },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   {  1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
+   { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
 };
 
 const vertex floor_data[36] = {
@@ -307,9 +309,19 @@ void Application::Run() {
 										"data/grass.png")) {
 		return;
 	}
+	Texture grass_normals_texture;
+	if (!Utility::CreateTextureFromFile(grass_normals_texture,
+										"data/grass_normals.png")) {
+		return;
+	}
 	Texture crate_texture;
 	if (!Utility::CreateTextureFromFile(crate_texture,
 										"data/crate.png")) {
+		return;
+	}
+	Texture crate_normals_texture;
+	if (!Utility::CreateTextureFromFile(crate_normals_texture,
+										"data/crate_normals.png")) {
 		return;
 	}
 	Texture planks_texture;
@@ -317,14 +329,29 @@ void Application::Run() {
 										"data/planks.png")) {
 		return;
 	}
+	Texture planks_normals_texture;
+	if (!Utility::CreateTextureFromFile(planks_normals_texture,
+										"data/planks_normals.png")) {
+		return;
+	}
 	Texture marble_texture;
 	if (!Utility::CreateTextureFromFile(marble_texture,
 										"data/marble.png")) {
 		return;
 	}
+	Texture marble_normals_texture;
+	if (!Utility::CreateTextureFromFile(marble_normals_texture,
+										"data/marble_normals.png")) {
+		return;
+	}
 	Texture bricks_texture;
 	if (!Utility::CreateTextureFromFile(bricks_texture,
 										"data/bricks.png")) {
+		return;
+	}
+	Texture bricks_normals_texture;
+	if (!Utility::CreateTextureFromFile(bricks_normals_texture,
+										"data/bricks_normals.png")) {
 		return;
 	}
 	SamplerState linear_sampler;
@@ -333,6 +360,24 @@ void Application::Run() {
 							   SAMPLER_ADDRESS_MODE_WRAP)) {
 		return;
 	}
+
+	for (int i = 0; i < 36; i+= 6) {
+		glm::vec3 pos1(cube_data[i].x, cube_data[i].y, cube_data[i].z);
+		glm::vec3 pos2(cube_data[i + 1].x, cube_data[i + 1].y, cube_data[i + 1].z);
+		glm::vec3 pos3(cube_data[i + 2].x, cube_data[i + 2].y, cube_data[i + 2].z);
+		glm::vec3 pos4(cube_data[i + 4].x, cube_data[i + 4].y, cube_data[i + 4].z);
+
+		glm::vec2 uv1(cube_data[i + 0].u, cube_data[i + 0].v);
+		glm::vec2 uv2(cube_data[i + 1].u, cube_data[i + 1].v);
+		glm::vec2 uv3(cube_data[i + 2].u, cube_data[i + 2].v);
+		glm::vec2 uv4(cube_data[i + 4].u, cube_data[i + 4].v);
+
+		glm::vec3 nm(cube_data[i].nx, cube_data[i].ny, cube_data[i].nz);
+
+		CalculateTangentsAndBitangents(pos1, pos2, pos3, uv1, uv2, uv3);
+		CalculateTangentsAndBitangents(pos2, pos3, pos1, uv2, uv3, uv1);
+	}
+
 	const int cube_primitive_count = sizeof(cube_data) / sizeof(cube_data[0]);
 	VertexBuffer cube;
 	if (!cube.Create(sizeof(cube_data), cube_data)) {
@@ -348,6 +393,8 @@ void Application::Run() {
 	layout.AddAttribute(1, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 4, false);
 	layout.AddAttribute(2, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 2, false);
 	layout.AddAttribute(3, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
+	layout.AddAttribute(4, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
+	layout.AddAttribute(5, VertexLayout::ATTRIBUTE_FORMAT_FLOAT, 3, false);
 	ShaderProgram final_program;
 	if (!Utility::CreateShaderProgramFromFiles(final_program,
 											   "data/final.vs.glsl",
@@ -571,8 +618,10 @@ void Application::Run() {
 							  1, glm::value_ptr(world_crate));
 		backend.SetVertexBuffer(cube);
 		backend.SetVertexLayout(layout);
-		backend.SetTexture(crate_texture);
 		backend.SetSamplerState(linear_sampler);
+		backend.SetSamplerState(linear_sampler, 2);
+		backend.SetTexture(crate_texture);
+		backend.SetTexture(crate_normals_texture, 2);
 		backend.SetBlendState(false);
 		backend.SetDepthState(true, true);
 		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
@@ -584,8 +633,10 @@ void Application::Run() {
 								 1, glm::value_ptr(world_marble));
 		backend.SetVertexBuffer(cube);
 		backend.SetVertexLayout(layout);
-		backend.SetTexture(marble_texture);
 		backend.SetSamplerState(linear_sampler);
+		backend.SetSamplerState(linear_sampler, 2);
+		backend.SetTexture(marble_texture);
+		backend.SetTexture(marble_normals_texture, 2);
 		backend.SetBlendState(false);
 		backend.SetDepthState(true, true);
 		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
@@ -597,8 +648,10 @@ void Application::Run() {
 								 1, glm::value_ptr(world_planks));
 		backend.SetVertexBuffer(cube);
 		backend.SetVertexLayout(layout);
-		backend.SetTexture(planks_texture);
 		backend.SetSamplerState(linear_sampler);
+		backend.SetSamplerState(linear_sampler, 2);
+		backend.SetTexture(planks_texture);
+		backend.SetTexture(planks_normals_texture, 2);
 		backend.SetBlendState(false);
 		backend.SetDepthState(true, true);
 		backend.SetRasterizerState(CULL_MODE_BACK, FRONT_FACE_CW);
@@ -610,7 +663,10 @@ void Application::Run() {
 								 1, glm::value_ptr(world_floor));
 		backend.SetVertexBuffer(floor);
 		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetSamplerState(linear_sampler, 2);
 		backend.SetTexture(grass_texture);
+		backend.SetTexture(grass_normals_texture, 2);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
 
 		backend.SetShaderUniform(world_program,
@@ -619,7 +675,10 @@ void Application::Run() {
 								 1, glm::value_ptr(world_wall));
 		backend.SetVertexBuffer(floor);
 		backend.SetVertexLayout(layout);
+		backend.SetSamplerState(linear_sampler);
+		backend.SetSamplerState(linear_sampler, 2);
 		backend.SetTexture(bricks_texture);
+		backend.SetTexture(bricks_normals_texture, 2);
 		backend.Draw(PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, 0, floor_primitive_count);
 		
 		backend.ResetFramebuffer();
@@ -651,6 +710,24 @@ void Application::Run() {
 
 		context.SwapBuffers();
 	}
+}
+
+void Application::CalculateTangentsAndBitangents(glm::vec3& pos1, glm::vec3& pos2, glm::vec3& pos3, glm::vec2& uv1, glm::vec2& uv2, glm::vec2& uv3)
+{
+	glm::vec3 edge1 = pos2 - pos1;
+	glm::vec3 edge2 = pos3 - pos1;
+	glm::vec2 deltaUV1 = uv2 - uv1;
+	glm::vec2 deltaUV2 = uv3 - uv1;
+
+	float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+	cube_data[0].tx = cube_data[1].tx = cube_data[2].tx = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+	cube_data[0].ty = cube_data[1].ty = cube_data[2].ty = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+	cube_data[0].tz = cube_data[1].tz = cube_data[2].tz = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+	cube_data[0].bx = cube_data[1].bx = cube_data[2].bx = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+	cube_data[0].by = cube_data[1].by = cube_data[2].by = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+	cube_data[0].bz = cube_data[1].bz = cube_data[2].bz = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 }
 
 void Application::OnKey(int key, bool state) {

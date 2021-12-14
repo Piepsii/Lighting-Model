@@ -13,12 +13,14 @@ float visibility = 1.0f;
 
 uniform sampler2D u_diffuse;
 uniform sampler2D u_shadowmap;
+uniform sampler2D u_normalmap;
 
 in vec4 v_diffuse;
 in vec2 v_texcoord;
 in vec3 v_normal;
 in vec3 v_fragment_position;
 in vec4 v_position_light_space;
+in mat3 v_TBN;
 
 out vec4 final_color;
 
@@ -30,6 +32,10 @@ void main() {
 	if(closest_depth < current_depth){
 		visibility = 0.2f;
 	}
+
+	vec3 normal = texture(u_normalmap, v_texcoord).rgb;
+	normal = normal * 0.5 + 0.5;
+	normal = normalize(v_TBN * normal);
 
 	vec3 L = -normalize(u_light_direction);
 	vec3 N = normalize(v_normal);
