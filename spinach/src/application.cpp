@@ -209,54 +209,54 @@ vertex cube_data[36] = {
    { -1.0f, -1.0f,  1.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,   },
 };
 
-const vertex floor_data[36] = {
+vertex floor_data[36] = {
 	// front
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f, 1.0f, },
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 0.0f, 0.0f, 1.0f, },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f, 1.0f, },
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f, 1.0f, },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f, 1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
 
    // right                             
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 1.0f, 0.0f, 0.0f, },
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 1.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f, },
 
    // back                              
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f,-1.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 0.0f, 0.0f,-1.0f,  },
-   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f,-1.0f,  },
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f,-1.0f,  },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		 0.0f, 0.0f,-1.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
 
    // left                              
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		-1.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.4f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.4f,		-1.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
 
    // top                               
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 2.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 1.0f, 0.0f,  },
-   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f, 1.0f, 0.0f,  },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 2.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f,  1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f,  1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f, 1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
 
    // bottom                               
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 2.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f,-1.0f, 0.0f,  },
-   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f,-1.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 2.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   {  5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		2.0f, 0.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f, -5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
+   { -5.0f, -1.0f,  5.0f,   1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 2.0f,		 0.0f,-1.0f, 0.0f,	 0.0f, 0.0f, 0.0f,	 0.0f, 0.0f, 0.0f,  },
 };
 
 static const float final_data[]{
@@ -361,22 +361,8 @@ void Application::Run() {
 		return;
 	}
 
-	for (int i = 0; i < 36; i+= 6) {
-		glm::vec3 pos1(cube_data[i].x, cube_data[i].y, cube_data[i].z);
-		glm::vec3 pos2(cube_data[i + 1].x, cube_data[i + 1].y, cube_data[i + 1].z);
-		glm::vec3 pos3(cube_data[i + 2].x, cube_data[i + 2].y, cube_data[i + 2].z);
-		glm::vec3 pos4(cube_data[i + 4].x, cube_data[i + 4].y, cube_data[i + 4].z);
-
-		glm::vec2 uv1(cube_data[i + 0].u, cube_data[i + 0].v);
-		glm::vec2 uv2(cube_data[i + 1].u, cube_data[i + 1].v);
-		glm::vec2 uv3(cube_data[i + 2].u, cube_data[i + 2].v);
-		glm::vec2 uv4(cube_data[i + 4].u, cube_data[i + 4].v);
-
-		glm::vec3 nm(cube_data[i].nx, cube_data[i].ny, cube_data[i].nz);
-
-		CalculateTangentsAndBitangents(pos1, pos2, pos3, uv1, uv2, uv3);
-		CalculateTangentsAndBitangents(pos2, pos3, pos1, uv2, uv3, uv1);
-	}
+	GenerateTangentsForCube(cube_data);
+	GenerateTangentsForCube(floor_data);
 
 	const int cube_primitive_count = sizeof(cube_data) / sizeof(cube_data[0]);
 	VertexBuffer cube;
@@ -712,7 +698,27 @@ void Application::Run() {
 	}
 }
 
-void Application::CalculateTangentsAndBitangents(glm::vec3& pos1, glm::vec3& pos2, glm::vec3& pos3, glm::vec2& uv1, glm::vec2& uv2, glm::vec2& uv3)
+void Application::GenerateTangentsForCube(vertex* data)
+{
+	for (int i = 0; i < 36; i += 6) {
+		glm::vec3 pos1(data[i + 0].x, data[i + 0].y, data[i + 0].z);
+		glm::vec3 pos2(data[i + 1].x, data[i + 1].y, data[i + 1].z);
+		glm::vec3 pos3(data[i + 2].x, data[i + 2].y, data[i + 2].z);
+		glm::vec3 pos4(data[i + 4].x, data[i + 4].y, data[i + 4].z);
+
+		glm::vec2 uv1(data[i + 0].u, data[i + 0].v);
+		glm::vec2 uv2(data[i + 1].u, data[i + 1].v);
+		glm::vec2 uv3(data[i + 2].u, data[i + 2].v);
+		glm::vec2 uv4(data[i + 4].u, data[i + 4].v);
+
+		glm::vec3 nm(data[i].nx, data[i].ny, data[i].nz);
+
+		CalculateTangentsAndBitangents(pos1, pos2, pos3, uv1, uv2, uv3, i, data);
+		CalculateTangentsAndBitangents(pos3, pos4, pos1, uv3, uv4, uv1, i + 3, data);
+	}
+}
+
+void Application::CalculateTangentsAndBitangents(glm::vec3& pos1, glm::vec3& pos2, glm::vec3& pos3, glm::vec2& uv1, glm::vec2& uv2, glm::vec2& uv3, int triangle_index, vertex* data)
 {
 	glm::vec3 edge1 = pos2 - pos1;
 	glm::vec3 edge2 = pos3 - pos1;
@@ -721,13 +727,13 @@ void Application::CalculateTangentsAndBitangents(glm::vec3& pos1, glm::vec3& pos
 
 	float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
 
-	cube_data[0].tx = cube_data[1].tx = cube_data[2].tx = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
-	cube_data[0].ty = cube_data[1].ty = cube_data[2].ty = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
-	cube_data[0].tz = cube_data[1].tz = cube_data[2].tz = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+	data[triangle_index + 0].tx = data[triangle_index + 1].tx = data[triangle_index + 2].tx = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+	data[triangle_index + 0].ty = data[triangle_index + 1].ty = data[triangle_index + 2].ty = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+	data[triangle_index + 0].tz = data[triangle_index + 1].tz = data[triangle_index + 2].tz = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
 
-	cube_data[0].bx = cube_data[1].bx = cube_data[2].bx = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
-	cube_data[0].by = cube_data[1].by = cube_data[2].by = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
-	cube_data[0].bz = cube_data[1].bz = cube_data[2].bz = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+	data[triangle_index + 0].bx = data[triangle_index + 1].bx = data[triangle_index + 2].bx = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+	data[triangle_index + 0].by = data[triangle_index + 1].by = data[triangle_index + 2].by = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+	data[triangle_index + 0].bz = data[triangle_index + 1].bz = data[triangle_index + 2].bz = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 }
 
 void Application::OnKey(int key, bool state) {

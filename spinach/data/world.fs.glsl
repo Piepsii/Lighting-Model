@@ -33,12 +33,12 @@ void main() {
 		visibility = 0.2f;
 	}
 
-	vec3 normal = texture(u_normalmap, v_texcoord).rgb;
-	normal = normal * 0.5 + 0.5;
+	vec3 normal = texture(u_normalmap, v_texcoord, -1.0).rgb;
+	normal = normal * 2.0;
 	normal = normalize(v_TBN * normal);
 
 	vec3 L = -normalize(u_light_direction);
-	vec3 N = normalize(v_normal);
+	vec3 N = normalize(normal);
 	float NdL = max(0.0, dot(N, L));
 	vec3 light_color = u_light_color * NdL;
 
