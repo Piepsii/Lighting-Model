@@ -242,8 +242,10 @@ void Application::Run() {
 		glm::mat4 world5= glm::rotate(glm::mat4(1.0f), -3.141592f * 0.5f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)))
 			* glm::rotate(glm::mat4(1.0f), 3.141592f * 0.5f, glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)))
 			* glm::translate(glm::mat4(1.0f), wall_position3);
-		glm::mat4 world6 = glm::translate(glm::mat4(1.0f), marble_position);
-		glm::mat4 world7 = glm::translate(glm::mat4(1.0f), planks_position);
+		glm::mat4 world6 = glm::translate(glm::mat4(1.0f), marble_position)
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, 1.0f, -1.0f)));
+		glm::mat4 world7 = glm::translate(glm::mat4(1.0f), planks_position)
+			* glm::rotate(glm::mat4(1.0f), cube_rotation, glm::normalize(glm::vec3(1.0f, 1.0f, -1.0f)));
 
 		glm::mat4 orthographic = glm::ortho(0.0f,
 											1920.0f,//float(rendertarget.width_),
