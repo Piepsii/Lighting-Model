@@ -395,6 +395,19 @@ void Application::Run() {
 	glm::vec3 floor_position = glm::vec3(0.0f, -4.0f, -8.0f);
 	glm::vec3 wall_position = glm::vec3(0.0f, 2.0f, -14.0f);
 
+	enum class LightColor {
+		White,
+		Red,
+		Green,
+		Blue
+	} light_color_enum = LightColor::White;
+
+
+	glm::vec3 light_color = glm::vec3(1.0f, 0.95f, 0.9f);
+
+	bool current = false;
+	bool previous = false;
+
 	while (running && context.PollEvents()) {
 		// rendering goes here
 
@@ -420,7 +433,33 @@ void Application::Run() {
 											1920.0f,//float(rendertarget.width_),
 											1080.0f,//float(rendertarget.height_),
 											0.0f);
-		glm::vec3 light_direction = glm::normalize(glm::vec3(-0.4f, -1.0f, 0.8f));
+		glm::vec3 light_direction = glm::normalize(glm::vec3(-0.2f, -0.2f, 0.0f));
+		glm::mat4 rotation_matrix = glm::rotate(glm::mat4(1.0f), light_rotation_z, glm::vec3(0.0f, 0.0f, 1.0f));
+		light_direction = glm::normalize(glm::vec3(rotation_matrix * glm::vec4(light_direction, 1.0f)));
+
+		previous = current;
+		current = mouse.ButtonDown(GLFW_MOUSE_BUTTON_RIGHT);
+		
+		if (current && !previous) {
+			switch (light_color_enum) {
+			case LightColor::White:
+				light_color = glm::vec3(1.0f, 0.95f, 0.9f);
+				light_color_enum = LightColor::Red;
+				break;
+			case LightColor::Red:
+				light_color = glm::vec3(1.0f, 0.0f, 0.0f);
+				light_color_enum = LightColor::Green;
+				break;
+			case LightColor::Green:
+				light_color = glm::vec3(0.0f, 1.0f, 0.0f);
+				light_color_enum = LightColor::Blue;
+				break;
+			case LightColor::Blue:
+				light_color = glm::vec3(0.0f, 0.0f, 1.0f);
+				light_color_enum = LightColor::White;
+				break;
+			}
+		}
 
 		glm::mat4 light_projection_matrix = glm::ortho<float>(-20.0f,
 															  20.0f,
@@ -547,7 +586,7 @@ void Application::Run() {
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_light_color",
-								 1, glm::value_ptr(glm::vec3(1.0f, 0.95f, 0.9f)));
+								 1, glm::value_ptr(light_color));
 		backend.SetShaderUniform(world_program,
 								 UNIFORM_TYPE_VEC3,
 								 "u_light_ambient",
@@ -665,6 +704,11 @@ void Application::OnMouse(int x, int y) {
 }
 
 void Application::OnScroll(int xoffset, int yoffset) {
+	light_rotation_z += float(yoffset) * 0.1f;
+	if (light_rotation_z > 360.0f)
+		light_rotation_z = 0.0f;
+	else if (light_rotation_z < 0.0f)
+		light_rotation_z = 360.0f;
 }
 
 void Application::OnButton(int button, bool state) {

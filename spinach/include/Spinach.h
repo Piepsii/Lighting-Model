@@ -38,6 +38,7 @@ struct Application {
 	Utility::Keyboard keyboard;
 
 	int windowWidth, windowHeight;
+	float light_rotation_z = 0.8f;
 };
 
 
